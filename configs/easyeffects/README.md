@@ -18,4 +18,6 @@ Formerly called PulseEffects for anyone coming from the old application, EasyEff
 
 Recommended for 6.2.7 or higher versions. To apply, copy it inside ~/.config/easyeffects/output folder (if you have the the Flatpak version, place the preset file in ~/.var/app/com.github.wwmm.easyeffects/config/easyeffects/output). Close and restart EasyEffects, then apply the new preset.
 
+If you are using an OS that utilizes Pipewire (like Pop! OS), set the filter cutoff frequency in EasyEffects to the same value of the LFE cutoff, `channelmix.lfe-cutoff`, in `/usr/share/pipewire/client.conf`. That value should be something like 100 or 150Hz.
+
 Credit to the volume normalization goes to https://github.com/Digitalone1/EasyEffects-Presets.
