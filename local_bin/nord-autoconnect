@@ -1,7 +1,12 @@
 #!/bin/bash
 
+#
+# @(#)File:		nordvpn-autoconnect $
+# @(#)Purpose:		To be run with cron, automatically connect to NordVPN if not connected. If not logged in, automatically log in. $
+# @(#)Author:		SuprBadass $
+#
+
 date=$(date)
-#Log path example: /home/username/nord_reconnection.txt
 log_path=/home/reece/nord_reconnection.txt
 nord_token="NORD_TOKEN_HERE"
 # Uncomment webhook if you want to use a notification system
@@ -9,7 +14,6 @@ nord_token="NORD_TOKEN_HERE"
 # While nordvpn is connected, run ip link show to determine the name of the interface used by nordvpn (for example nordlynx)
 link_name=nordlynx
 
-#count=$( ip link show | grep $link_name | wc -l )
 (nordvpn status | grep -qi "\bconnected\b")
 connected=$?
 if [ $connected -eq 1 ]; then
