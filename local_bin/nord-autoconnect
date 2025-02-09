@@ -1,0 +1,34 @@
+#!/bin/bash
+
+date=$(date)
+#Log path example: /home/username/nord_reconnection.txt
+log_path=/home/reece/nord_reconnection.txt
+nord_token="NORD_TOKEN_HERE"
+# Uncomment webhook if you want to use a notification system
+#webhook="YOUR WEBHOOK IN QUOTATION MARKS"
+# While nordvpn is connected, run ip link show to determine the name of the interface used by nordvpn (for example nordlynx)
+link_name=nordlynx
+
+#count=$( ip link show | grep $link_name | wc -l )
+(nordvpn status | grep -qi "\bconnected\b")
+connected=$?
+if [ $connected -eq 1 ]; then
+        echo "-----------------------------------------------" >> $log_path
+        echo "Checking if logged in" >> $log_path
+        if echo `nordvpn connect` | grep -q "You are not logged in."; then
+                echo "NordVPN logging in: $date" >> $log_path
+                echo `nordvpn login --token $nord_token`
+                echo "Attempting to connect again: $date" >> $log_path
+                if echo `nordvpn connect` | grep -q "You are not logged in."; then
+                        echo "Login was unsuccessful" >> $log_path
+			if [[ -v webhook ]]; then
+                        	echo `curl -X POST $webhook`
+			fi
+                else
+                        echo "Login and connection successful" >> $log_path
+                fi
+        else
+                echo "Successfully connected" >> $log_path
+        fi
+fi
+
